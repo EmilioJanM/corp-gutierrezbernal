@@ -15,7 +15,11 @@ import {
   Gavel,
   Cpu,
   Send,
-  CheckCircle2
+  CheckCircle2,
+  Calendar,
+  MapPin,
+  Award,
+  HelpCircle
 } from 'lucide-react';
 import './index.css';
 
@@ -147,6 +151,30 @@ const beneficiaryOptions = [
   'Otra persona'
 ];
 
+const specializationAreas = [
+  'Derecho penal y contencioso',
+  'Amparo',
+  'Derecho mercantil',
+  'Derecho corporativo y empresarial',
+  'Asuntos bancarios',
+  'LegalTech y herramientas jurídicas con IA'
+];
+
+const faqItems = [
+  {
+    question: '¿Cómo funciona una asesoría?',
+    answer: 'El cliente llena el formulario o contacta al despacho, explica brevemente su situación y el equipo identifica el área jurídica correspondiente para darle seguimiento.'
+  },
+  {
+    question: '¿Tiene costo?',
+    answer: 'Los alcances y condiciones se determinan según la materia y las necesidades de cada caso. Al contactarnos, nuestro equipo te brindará toda la información correspondiente antes de iniciar.'
+  },
+  {
+    question: '¿Atienden urgencias?',
+    answer: 'Brindamos atención prioritaria para situaciones que requieren acción inmediata, especialmente en asuntos penales y de amparo. Indica si tu caso es urgente al enviarnos tu solicitud o comunícate directamente a nuestro teléfono.'
+  }
+];
+
 function App() {
   const [scrolled, setScrolled] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
@@ -216,9 +244,10 @@ function App() {
           {/* Desktop Links */}
           <div className="nav-links desktop-links">
             <a href="#mision">Misión & Visión</a>
+            <a href="#experiencia">Experiencia</a>
             <a href="#servicios">Servicios Jurídicos</a>
-            <a href="#valores">Valores</a>
             <a href="#equipo">Equipo</a>
+            <a href="#faq">Preguntas Frecuentes</a>
             <a href="#asesoria" className="nav-cta">Contratar Asesoría</a>
           </div>
 
@@ -238,9 +267,11 @@ function App() {
       <div className={`mobile-nav-overlay ${isMenuOpen ? 'open' : ''}`}>
         <div className="mobile-nav-links">
           <a href="#mision" onClick={() => setIsMenuOpen(false)}>Misión & Visión</a>
+          <a href="#experiencia" onClick={() => setIsMenuOpen(false)}>Experiencia</a>
           <a href="#servicios" onClick={() => setIsMenuOpen(false)}>Servicios Jurídicos</a>
           <a href="#valores" onClick={() => setIsMenuOpen(false)}>Valores</a>
           <a href="#equipo" onClick={() => setIsMenuOpen(false)}>Equipo</a>
+          <a href="#faq" onClick={() => setIsMenuOpen(false)}>Preguntas Frecuentes</a>
           <a href="#asesoria" className="btn btn-primary" onClick={() => setIsMenuOpen(false)}>
             Contratar Asesoría
           </a>
@@ -281,6 +312,60 @@ function App() {
             <p>
               Ser una firma legal líder, reconocida no solo por nuestra excelencia en representación y asesoramiento jurídico, sino también por nuestra capacidad de innovar en el acceso a la justicia. A través de nuestra alianza con LegalX y el uso de herramientas LegalTech, buscamos transformar la práctica legal, manteniendo un compromiso firme con la ética y la responsabilidad social.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Experiencia del Despacho */}
+      <section id="experiencia" className="section container">
+        <div className="section-header text-center">
+          <h2>Experiencia del Despacho</h2>
+          <p className="text-muted section-subtitle">
+            Trayectoria, cobertura y especialización al servicio de quienes requieren respaldo jurídico de primer nivel.
+          </p>
+        </div>
+
+        <div className="experience-grid">
+          <div className="glass-card value-card">
+            <div className="value-icon">
+              <Calendar size={24} />
+            </div>
+            <h4>Desde 2015</h4>
+            <p>
+              Operamos de manera continua desde el año <strong>2015</strong>, consolidando una práctica jurídica sólida, ética y enfocada en resultados.
+            </p>
+          </div>
+
+          <div className="glass-card value-card">
+            <div className="value-icon">
+              <MapPin size={24} />
+            </div>
+            <h4>Presencia</h4>
+            <p>
+              Contamos con presencia estratégica en <strong>Ciudad de México</strong> y en <strong>Cancún, Quintana Roo</strong> para brindar atención oportuna.
+            </p>
+          </div>
+
+          <div className="glass-card value-card">
+            <div className="value-icon">
+              <Users size={24} />
+            </div>
+            <h4>Tipos de Clientes Atendidos</h4>
+            <p>
+              Atendemos a <strong>personas físicas, empresarios, empresas</strong> y clientes que requieren representación o asesoría jurídica especializada.
+            </p>
+          </div>
+
+          <div className="glass-card value-card">
+            <div className="value-icon">
+              <Award size={24} />
+            </div>
+            <h4>Áreas de Especialización</h4>
+            <div className="experience-tags">
+              {specializationAreas.map((area, idx) => (
+                <span key={idx} className="experience-tag">{area}</span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -491,6 +576,28 @@ function App() {
         </div>
       </section>
 
+      {/* Preguntas Frecuentes */}
+      <section id="faq" className="section container">
+        <div className="section-header text-center">
+          <h2>Preguntas Frecuentes</h2>
+          <p className="text-muted section-subtitle">
+            Resolvemos las dudas más comunes sobre nuestro proceso de atención y asesoría jurídica.
+          </p>
+        </div>
+
+        <div className="faq-grid">
+          {faqItems.map((item, idx) => (
+            <div className="glass-card faq-card" key={idx}>
+              <div className="value-icon">
+                <HelpCircle size={24} />
+              </div>
+              <h4>{item.question}</h4>
+              <p>{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Clientes */}
       <section id="clientes" className="section container">
         <div className="section-header text-center">
@@ -543,11 +650,10 @@ function App() {
             </div>
 
             <div className="footer-section">
-              <h4>Oficinas Adicionales</h4>
+              <h4>Presencia</h4>
               <ul>
                 <li>Ciudad de México</li>
                 <li>Cancún, Quintana Roo</li>
-                <li>Monterrey, Nuevo León</li>
               </ul>
             </div>
           </div>

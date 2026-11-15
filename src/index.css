@@ -338,16 +338,40 @@ a {
   color: var(--text-muted);
 }
 
-/* Services & Values Sections */
+/* Services, Values, Experience & FAQ Sections */
+.experience-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+}
+
+.experience-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.experience-tag {
+  background: rgba(201, 162, 91, 0.12);
+  border: 1px solid rgba(201, 162, 91, 0.3);
+  color: var(--text-main);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+}
+
 .services-grid,
-.values-grid {
+.values-grid,
+.faq-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.75rem;
 }
 
 .service-card,
-.value-card {
+.value-card,
+.faq-card {
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -368,13 +392,15 @@ a {
 }
 
 .service-card h4,
-.value-card h4 {
+.value-card h4,
+.faq-card h4 {
   font-size: 1.25rem;
   margin-bottom: 0.6rem;
 }
 
 .service-card p,
-.value-card p {
+.value-card p,
+.faq-card p {
   font-size: 0.95rem;
   color: var(--text-muted);
 }
@@ -812,7 +838,7 @@ a {
 }
 
 /* Responsive - Tablet & Mobile */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .nav-links.desktop-links {
     display: none;
   }
@@ -914,8 +940,10 @@ a {
   }
 
   .mission-vision,
+  .experience-grid,
   .services-grid,
   .values-grid,
+  .faq-grid,
   .team-grid,
   .form-grid,
   .footer-grid {
@@ -929,9 +957,14 @@ a {
 
   .mv-card,
   .service-card,
-  .value-card {
+  .value-card,
+  .faq-card {
     text-align: center;
     align-items: center;
+  }
+
+  .experience-tags {
+    justify-content: center;
   }
 
   .form-wrapper {
