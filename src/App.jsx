@@ -1,6 +1,61 @@
 import React, { useEffect, useState } from 'react';
-import { Shield, Scale, Lightbulb, Users, Lock, HeartHandshake, ChevronRight, X, Menu } from 'lucide-react';
+import {
+  Shield,
+  Scale,
+  Lightbulb,
+  Users,
+  Lock,
+  HeartHandshake,
+  ChevronRight,
+  X,
+  Menu,
+  Briefcase,
+  Building2,
+  Landmark,
+  Gavel,
+  Cpu,
+  Send,
+  CheckCircle2
+} from 'lucide-react';
 import './index.css';
+
+const legalServices = [
+  {
+    icon: Shield,
+    title: 'Derecho penal y defensa penal',
+    desc: 'Representación y defensa técnica especializada en todas las etapas del proceso penal, garantizando el debido proceso y la protección de tus derechos.'
+  },
+  {
+    icon: Scale,
+    title: 'Amparo y derecho constitucional',
+    desc: 'Juicios de amparo y medios de control constitucional para la protección efectiva de derechos fundamentales frente a actos de autoridad.'
+  },
+  {
+    icon: Briefcase,
+    title: 'Derecho mercantil',
+    desc: 'Asesoría y litigio en operaciones comerciales, contratos mercantiles, títulos de crédito, cobranza y controversias entre comerciantes.'
+  },
+  {
+    icon: Building2,
+    title: 'Derecho corporativo y empresarial',
+    desc: 'Constitución y gobierno corporativo, blindaje legal, contratos estratégicos y acompañamiento jurídico integral para empresas.'
+  },
+  {
+    icon: Landmark,
+    title: 'Asuntos bancarios y financieros',
+    desc: 'Atención especializada en controversias bancarias, reestructuras financieras, regulación y defensa frente a instituciones de crédito.'
+  },
+  {
+    icon: Gavel,
+    title: 'Litigio contencioso',
+    desc: 'Estrategia y representación firme en tribunales para la resolución de conflictos complejos con enfoque en resultados efectivos.'
+  },
+  {
+    icon: Cpu,
+    title: 'LegalTech y soluciones jurídicas con IA',
+    desc: 'Innovación aplicada al derecho mediante inteligencia artificial y herramientas tecnológicas para optimizar procesos y democratizar la justicia.'
+  }
+];
 
 const teamMembers = [
   {
@@ -75,10 +130,38 @@ const clientImages = [
   '/images/image31.png'
 ];
 
+const helpAreaOptions = [
+  'Penal',
+  'Amparo / Constitucional',
+  'Mercantil',
+  'Corporativo / Empresarial',
+  'Bancario',
+  'LegalTech',
+  'Otro / No estoy seguro'
+];
+
+const beneficiaryOptions = [
+  'Para mí',
+  'Familiar',
+  'Empresa',
+  'Otra persona'
+];
+
 function App() {
   const [scrolled, setScrolled] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    cityState: '',
+    area: '',
+    beneficiary: 'Para mí',
+    description: ''
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,41 +171,80 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (submitted) setSubmitted(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const lines = [
+      '¡Hola! Solicito contratar una asesoría jurídica:',
+      '',
+      '*Datos personales*',
+      `• Nombre completo: ${formData.fullName}`,
+      `• Teléfono / WhatsApp: ${formData.phone}`,
+      `• Correo electrónico: ${formData.email}`,
+      `• Ciudad y estado: ${formData.cityState}`,
+      '',
+      `*¿En qué podemos ayudarte?:* ${formData.area || 'No especificado'}`,
+      `*¿Para quién solicita la asesoría?:* ${formData.beneficiary}`,
+      '',
+      '*Situación:*',
+      formData.description.trim() || 'Sin descripción adicional.'
+    ];
+    const whatsappUrl = `https://wa.me/525512920315?text=${encodeURIComponent(lines.join('\n'))}`;
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    setSubmitted(true);
+  };
+
   return (
-    <>
-      <div className="glow-blob glow-1"></div>
-      <div className="glow-blob glow-2"></div>
+    <div className="page-wrapper">
+      <div className="glow-blob glow-1" aria-hidden="true"></div>
+      <div className="glow-blob glow-2" aria-hidden="true"></div>
 
       {/* Navbar */}
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="container nav-content">
-          <div className="logo" style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="/images/logo-2.png" alt="Logo" style={{ height: '40px', marginRight: '10px' }} />
+          <a href="#" className="logo">
+            <img src="/images/logo-2.png" alt="Logo" className="logo-img" />
             G<span>&</span>B
-          </div>
+          </a>
           
           {/* Desktop Links */}
           <div className="nav-links desktop-links">
             <a href="#mision">Misión & Visión</a>
+            <a href="#servicios">Servicios Jurídicos</a>
             <a href="#valores">Valores</a>
             <a href="#equipo">Equipo</a>
+            <a href="#asesoria" className="nav-cta">Contratar Asesoría</a>
           </div>
 
           {/* Hamburger Menu Toggle */}
-          <div className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button
+            type="button"
+            className="mobile-menu-btn"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Abrir menú de navegación"
+          >
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </div>
-        </div>
-
-        {/* Mobile Menu Overlay */}
-        <div className={`mobile-nav-overlay ${isMenuOpen ? 'open' : ''}`}>
-          <div className="mobile-nav-links">
-            <a href="#mision" onClick={() => setIsMenuOpen(false)}>Misión & Visión</a>
-            <a href="#valores" onClick={() => setIsMenuOpen(false)}>Valores</a>
-            <a href="#equipo" onClick={() => setIsMenuOpen(false)}>Equipo</a>
-          </div>
+          </button>
         </div>
       </nav>
+
+      {/* Mobile Menu Overlay */}
+      <div className={`mobile-nav-overlay ${isMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-nav-links">
+          <a href="#mision" onClick={() => setIsMenuOpen(false)}>Misión & Visión</a>
+          <a href="#servicios" onClick={() => setIsMenuOpen(false)}>Servicios Jurídicos</a>
+          <a href="#valores" onClick={() => setIsMenuOpen(false)}>Valores</a>
+          <a href="#equipo" onClick={() => setIsMenuOpen(false)}>Equipo</a>
+          <a href="#asesoria" className="btn btn-primary" onClick={() => setIsMenuOpen(false)}>
+            Contratar Asesoría
+          </a>
+        </div>
+      </div>
 
       {/* Hero Section */}
       <header className="hero">
@@ -134,10 +256,12 @@ function App() {
             Una firma líder enfocada en brindar representación legal integral y de alta calidad mediante innovación y LegalTech, democratizando el acceso a la justicia en México.
           </p>
           <div className="hero-actions animate-fade-in-up delay-2">
-            <a href="https://wa.me/525512920315?text=%C2%A1Hola!,%20Me%20interesa%20m%C3%A1s%20informaci%C3%B3n..." target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ textDecoration: 'none' }}>
-              Contactar Asesoría <ChevronRight size={18} />
+            <a href="#asesoria" className="btn btn-primary">
+              Contratar Asesoría <ChevronRight size={18} />
             </a>
-            <a href="#equipo" className="btn btn-outline" style={{ textDecoration: 'none' }}>Conoce el equipo</a>
+            <a href="#servicios" className="btn btn-outline">
+              Servicios Jurídicos
+            </a>
           </div>
         </div>
       </header>
@@ -160,11 +284,33 @@ function App() {
         </div>
       </section>
 
+      {/* Servicios Jurídicos */}
+      <section id="servicios" className="section container">
+        <div className="section-header text-center">
+          <h2>Servicios Jurídicos</h2>
+          <p className="text-muted section-subtitle">
+            Especialidades respaldadas por las áreas y direcciones de nuestro despacho para brindarte defensa y asesoría integral.
+          </p>
+        </div>
+
+        <div className="services-grid">
+          {legalServices.map((srv, idx) => (
+            <div className="glass-card service-card" key={idx}>
+              <div className="value-icon">
+                <srv.icon size={24} />
+              </div>
+              <h4>{srv.title}</h4>
+              <p>{srv.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Valores */}
       <section id="valores" className="section container">
-        <div className="text-center">
+        <div className="section-header text-center">
           <h2>Nuestros Valores</h2>
-          <p className="text-muted" style={{ marginTop: '1rem', maxWidth: '600px', margin: '1rem auto' }}>
+          <p className="text-muted section-subtitle">
             Los principios que guían nuestra excelencia jurídica y nuestro compromiso social.
           </p>
         </div>
@@ -184,16 +330,16 @@ function App() {
 
       {/* Equipo */}
       <section id="equipo" className="section container">
-        <div className="text-center">
+        <div className="section-header text-center">
           <h2>Nuestro Equipo de Profesionales</h2>
-          <p className="text-muted" style={{ marginTop: '1rem' }}>
+          <p className="text-muted section-subtitle">
             Un bastión de excelencia jurídica desde 2015
           </p>
         </div>
 
         <div className="team-grid">
           {teamMembers.map((member, idx) => (
-            <div className="team-card" key={idx} onClick={() => setSelectedMember(member)} style={{ cursor: 'pointer' }}>
+            <div className="team-card" key={idx} onClick={() => setSelectedMember(member)}>
               <div className="team-image" style={{ backgroundImage: `url(${member.image})`, backgroundPosition: 'top center' }}></div>
               <div className="team-info">
                 <h4>{member.name}</h4>
@@ -204,11 +350,151 @@ function App() {
         </div>
       </section>
 
+      {/* Contratar Asesoría - Formulario */}
+      <section id="asesoria" className="section container">
+        <div className="section-header text-center">
+          <h2>Contratar Asesoría</h2>
+          <p className="text-muted section-subtitle">
+            Completa el siguiente formulario y un especialista de nuestra firma se pondrá en contacto contigo a la brevedad.
+          </p>
+        </div>
+
+        <div className="form-wrapper glass-card">
+          <form onSubmit={handleSubmit} className="advisory-form">
+            <div className="form-block">
+              <h3 className="form-section-title">Datos personales</h3>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label htmlFor="fullName">Nombre completo <span className="required">*</span></label>
+                  <input
+                    id="fullName"
+                    name="fullName"
+                    type="text"
+                    required
+                    placeholder="Ej. Juan Pérez Hernández"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="phone">Teléfono / WhatsApp <span className="required">*</span></label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    required
+                    placeholder="Ej. 55 1234 5678"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="email">Correo electrónico <span className="required">*</span></label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="ejemplo@correo.com"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="cityState">Ciudad y estado <span className="required">*</span></label>
+                  <input
+                    id="cityState"
+                    name="cityState"
+                    type="text"
+                    required
+                    placeholder="Ej. Ciudad de México, CDMX"
+                    value={formData.cityState}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-block">
+              <div className="form-grid">
+                <div className="form-group">
+                  <label htmlFor="area">¿En qué podemos ayudarte? <span className="required">*</span></label>
+                  <select
+                    id="area"
+                    name="area"
+                    required
+                    value={formData.area}
+                    onChange={handleInputChange}
+                  >
+                    <option value="" disabled>Selecciona un área...</option>
+                    {helpAreaOptions.map((option) => (
+                      <option key={option} value={option}>{option}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>¿Para quién solicita la asesoría? <span className="required">*</span></label>
+                  <div className="radio-pills">
+                    {beneficiaryOptions.map((option) => (
+                      <label
+                        key={option}
+                        className={`radio-pill ${formData.beneficiary === option ? 'active' : ''}`}
+                      >
+                        <input
+                          type="radio"
+                          name="beneficiary"
+                          value={option}
+                          checked={formData.beneficiary === option}
+                          onChange={handleInputChange}
+                        />
+                        <span>{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-block">
+              <div className="form-group">
+                <label htmlFor="description">Describe brevemente tu situación</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  rows={4}
+                  placeholder="Cuéntanos brevemente qué ocurrió y qué necesitas resolver."
+                  value={formData.description}
+                  onChange={handleInputChange}
+                ></textarea>
+                <span className="form-hint">
+                  Un resumen breve es suficiente; los detalles los revisaremos de forma confidencial durante tu asesoría.
+                </span>
+              </div>
+            </div>
+
+            <div className="form-submit-row">
+              <button type="submit" className="btn btn-primary btn-submit">
+                Solicitar Asesoría <Send size={18} />
+              </button>
+              {submitted && (
+                <p className="form-success-msg">
+                  <CheckCircle2 size={18} /> ¡Datos listos! Se ha abierto WhatsApp para enviar tu solicitud.
+                </p>
+              )}
+            </div>
+          </form>
+        </div>
+      </section>
+
       {/* Clientes */}
       <section id="clientes" className="section container">
-        <div className="text-center">
+        <div className="section-header text-center">
           <h2>Algunos de nuestros apreciables clientes y aliados</h2>
-          <p className="text-muted" style={{ marginTop: '1rem' }}>
+          <p className="text-muted section-subtitle">
             Agradecemos la confianza depositada en nosotros
           </p>
         </div>
@@ -226,9 +512,9 @@ function App() {
       <footer className="main-footer">
         <div className="container footer-content">
           <div className="footer-grid">
-            <div className="footer-section">
-              <div className="logo" style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center' }}>
-                <img src="/images/logo-2.png" alt="Logo" style={{ height: '40px', marginRight: '10px' }} />
+            <div className="footer-section footer-brand">
+              <div className="logo footer-logo">
+                <img src="/images/logo-2.png" alt="Logo" className="logo-img" />
                 G<span>&</span>B
               </div>
               <h3 className="footer-ready-text">Estamos listos para trabajar contigo.</h3>
@@ -237,11 +523,11 @@ function App() {
             <div className="footer-section">
               <h4>Contacto</h4>
               <p><strong>Teléfonos:</strong> 55 96674973</p>
-              <p><strong>Correo Electrónico:</strong> <br/>
+              <p className="footer-emails"><strong>Correo Electrónico:</strong> <br/>
                 <a href="mailto:CorporativoGutierrezbernal@hotmail.com">CorporativoGutierrezbernal@hotmail.com</a><br/>
                 <a href="mailto:Jmb@gutierrezbernal.com">Jmb@gutierrezbernal.com</a>
               </p>
-              <a href="https://wa.me/525512920315?text=%C2%A1Hola!,%20Me%20interesa%20m%C3%A1s%20informaci%C3%B3n..." target="_blank" rel="noopener noreferrer" className="btn btn-primary mt-2">
+              <a href="#asesoria" className="btn btn-primary mt-2">
                 ¡Contáctanos!
               </a>
             </div>
@@ -289,7 +575,7 @@ function App() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
