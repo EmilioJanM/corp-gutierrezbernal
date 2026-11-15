@@ -179,23 +179,24 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const subject = `Solicitud de Asesoría Jurídica - ${formData.area || 'General'} (${formData.fullName})`;
     const lines = [
-      '¡Hola! Solicito contratar una asesoría jurídica:',
+      'Solicitud de asesoría jurídica:',
       '',
-      '*Datos personales*',
-      `• Nombre completo: ${formData.fullName}`,
-      `• Teléfono / WhatsApp: ${formData.phone}`,
-      `• Correo electrónico: ${formData.email}`,
-      `• Ciudad y estado: ${formData.cityState}`,
+      'Datos personales:',
+      `- Nombre completo: ${formData.fullName}`,
+      `- Teléfono / WhatsApp: ${formData.phone}`,
+      `- Correo electrónico: ${formData.email}`,
+      `- Ciudad y estado: ${formData.cityState}`,
       '',
-      `*¿En qué podemos ayudarte?:* ${formData.area || 'No especificado'}`,
-      `*¿Para quién solicita la asesoría?:* ${formData.beneficiary}`,
+      `¿En qué podemos ayudarte?: ${formData.area || 'No especificado'}`,
+      `¿Para quién solicita la asesoría?: ${formData.beneficiary}`,
       '',
-      '*Situación:*',
+      'Situación:',
       formData.description.trim() || 'Sin descripción adicional.'
     ];
-    const whatsappUrl = `https://wa.me/525512920315?text=${encodeURIComponent(lines.join('\n'))}`;
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    const mailtoUrl = `mailto:ejemplo@ejemplo.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\r\n'))}`;
+    window.location.href = mailtoUrl;
     setSubmitted(true);
   };
 
@@ -482,7 +483,7 @@ function App() {
               </button>
               {submitted && (
                 <p className="form-success-msg">
-                  <CheckCircle2 size={18} /> ¡Datos listos! Se ha abierto WhatsApp para enviar tu solicitud.
+                  <CheckCircle2 size={18} /> ¡Datos listos! Se ha abierto tu cliente de correo para enviar la solicitud a ejemplo@ejemplo.com.
                 </p>
               )}
             </div>
