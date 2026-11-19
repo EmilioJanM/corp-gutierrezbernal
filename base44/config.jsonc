@@ -1,0 +1,14 @@
+// Base44 Project Configuration
+{
+  "name": "Corporativo Gutiérrez & Bernal",
+  "description": "Sitio web corporativo de la firma legal Corporativo Gutiérrez & Bernal.",
+  "visibility": "public",
+
+  // Vite frontend hosted by Base44
+  "site": {
+    "outputDirectory": "./dist",
+    "buildCommand": "npm run build",
+    "installCommand": "npm ci",
+    "serveCommand": "npm run dev"
+  }
+}

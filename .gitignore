@@ -1,3 +1,7 @@
+# Base44 CLI (links a checkout to an app, never commit it)
+base44/.app.jsonc
+.app.jsonc
+
 # Logs
 logs
 *.log
